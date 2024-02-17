@@ -6,7 +6,7 @@ const Hero = () => {
     <div className="flex justify-between bg-gradient-to-b from-red-100 to-slate-100  md:items-center items-start md:h-screen h-auto mx-auto w-full h-screen" >
         <div className="flex flex-col mx-auto mt-5 " >
             <p className=" md:text-lg text-sm text-orange-500" >NEW ARRIVALS ONLY</p>
-            <p className="md:text-7xl text-lg font-semibold" >New 👋</p>
+            <p className="md:text-7xl text-lg font-semibold" >New <span className="animate-bounce" > 👋</span></p>
             <p className="md:text-7xl text-lg font-semibold" >Collections</p>
             <p className="md:text-7xl text-lg font-semibold" >for everyone</p>
             <p className="mt-5" >
@@ -18,7 +18,7 @@ const Hero = () => {
         </div>
         <div className="md:mx-auto md:h-screen" >
         
-          <img src={heroImage} alt="heroImage" className="md:w-auto h-full  z-0 " />
+          <img src={heroImage} alt="heroImage" className="md:w-auto h-full object-cover hover:scale-105 transition ease-in-out duration-300  z-0 " />
         </div>
 
     </div>
