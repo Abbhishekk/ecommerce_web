@@ -7,15 +7,15 @@ const Footer = () => {
   return (
     <div className='mb-5' >
         <div>
-            <div className="nav-logo md:flex hidden items-center justify-center">
+            <div className="nav-logo flex flex-col  items-center justify-center">
                 <img src={logo} alt="Logo" />
-                <p className='text-3xl font-bold'>
+                <p className='md:text-3xl font-bold'>
                     SH<span className='text-orange-500' >O</span>PP<span className='text-orange-500' >E</span>R
                 </p>
             </div>
         </div>
         <div className='flex justify-center m-6' >
-            <ul className='flex gap-10 justify-between' >
+            <ul className='flex flex-col md:flex-row md:gap-10 justify-between' >
                 <li>Company</li>
                 <li>Products</li>
                 <li>Offices</li>

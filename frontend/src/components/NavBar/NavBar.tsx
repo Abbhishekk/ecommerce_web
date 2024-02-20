@@ -55,7 +55,7 @@ const NavBar = () => {
                 </div>
                 <p>
 
-                    <button className='border-2 border-orange-500 px-3 py-1  transition ease-in-out   rounded hover:bg-orange-500 hover:text-white' >Login</button>
+                    <button className='border-2 border-orange-500 px-3 py-1  transition ease-in-out   rounded hover:bg-orange-500 hover:text-white' > <Link to={"/login"} > Login </Link></button>
                 </p>
             </div>
 
