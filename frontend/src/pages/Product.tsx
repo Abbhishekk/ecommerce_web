@@ -5,12 +5,41 @@ import { Link, useParams } from "react-router-dom"
 import data_product from "../components/assets/all_product"
 import { Rating } from "@material-tailwind/react";
 import { useState } from "react";
+// import { CartContextProvider } from "../context/CartContext";
+import { useCart } from "../hooks/useCartHooks";
 const Product = () => {
     const {id} = useParams();
-    const [size, setSize] = useState("");
-   
-
+    const [size, setSize] = useState("S");
+    const {cart, dispatch} = useCart()
+    
     const product = data_product.find(product => product.id === Number(id))
+
+    const addToCart= () =>{
+        console.log(cart.find(item => item.id === Number(id) && item.size === size));
+        
+        if(cart.find(item => item.id === Number(id) && item.size === size) !== undefined){
+            const payload = cart.filter(item => {
+                
+                if(item.id == Number(id) && item.size === size){
+                    return item.quantity +=1
+                }
+                else{
+                    return item
+                }
+              
+                
+            })
+            
+            
+            dispatch({type: "UPDATE_CART", payload: payload})
+        }
+        else{
+    const quantity = cart.find(item => item.id === Number(id) && item.size === size )?.quantity || 1
+
+            dispatch({type: "ADD_CART", payload: {...product,size,quantity}})
+
+        }
+    }
   return (
     <div className="" >
         <div className="flex mx-auto w-4/5 items-center" >
@@ -79,7 +108,7 @@ const Product = () => {
                         
                     </div>
                     <div className="mt-5">
-                        <button className="my-3 md:px-16 border-2 border-orange-500 p-3  transition ease-in-out   rounded hover:bg-orange-500 hover:text-white" >Add To Cart</button>
+                        <button className="my-3 md:px-16 border-2 border-orange-500 p-3  transition ease-in-out   rounded hover:bg-orange-500 hover:text-white" onClick={()=>addToCart()} >Add To Cart</button>
                     </div>
                 </div>
                 <p className="text-lg mt-10" ><span className="text-orange-500 font-bold" >Category: </span>{product?.category.toLocaleUpperCase()}</p>

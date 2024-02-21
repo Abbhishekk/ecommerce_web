@@ -9,6 +9,7 @@ import Womens from './pages/Womens'
 import Kids from './pages/Kids'
 import Login from './pages/Login'
 import Product from './pages/Product'
+import {  CartContextProvider } from './context/CartContext'
 
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
 
   return (
     <>
-   
+    <CartContextProvider value="null" >
       <NavBar />
       <Routes>
         <Route path="/" element={<Shop/>} />
@@ -28,7 +29,7 @@ function App() {
         />} />
       </Routes>
       <Footer/>
-    
+      </CartContextProvider>
     </>
   )
 }
