@@ -13,10 +13,12 @@ const NavBar = () => {
     return (
         <div className=' flex justify-between w-auto z-40 items-center mr-10 ml-10 mt-2 pb-2 '>
             <div className="nav-logo md:flex hidden items-center justify-center">
+                <Link to={'/'} className='nav-logo md:flex hidden items-center justify-center' >
                 <img src={logo} alt="Logo" />
                 <p className='text-3xl font-bold'>
                     SH<span className='text-orange-500' >O</span>PP<span className='text-orange-500' >E</span>R
                 </p>
+                </Link>
             </div>
             <div className='md:hidden block cursor-pointer hover:text-gray-500'>
                 {!hamburger && <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" onClick={() => setHamburger(!hamburger)} strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
