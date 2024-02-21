@@ -104,7 +104,7 @@ const Product = () => {
                         <p className={`p-5  w-full flex items-center justify-center hover:bg-orange-500 hover:text-white cursor-pointer  ${(size === "M")?("bg-orange-500 text-white"):("bg-slate-200")}`} onClick={()=>setSize("M")} >M</p>
                         <p className={`p-5  w-full flex items-center justify-center hover:bg-orange-500 hover:text-white cursor-pointer  ${(size === "L")?("bg-orange-500 text-white"):("bg-slate-200")}`} onClick={()=>setSize("L")} >L</p>
                         <p className={`p-5  w-full flex items-center justify-center hover:bg-orange-500 hover:text-white cursor-pointer  ${(size === "XL")?("bg-orange-500 text-white"):("bg-slate-200")}`} onClick={()=>setSize("XL")} >XL</p>
-                        <p className={`p-5  w-full flex items-center justify-center hover:bg-orange-500 hover:text-white cursor-pointer  ${(size === "XXL")?("bg-orange-500 text-white"):("bg-slate-200")}`} onClick={()=>setSize("XXl")} >XXl</p>
+                        <p className={`p-5  w-full flex items-center justify-center hover:bg-orange-500 hover:text-white cursor-pointer  ${(size === "XXL")?("bg-orange-500 text-white"):("bg-slate-200")}`} onClick={()=>setSize("XXL")} >XXl</p>
                         
                     </div>
                     <div className="mt-5">
