@@ -10,6 +10,7 @@ import Kids from './pages/Kids'
 import Login from './pages/Login'
 import Product from './pages/Product'
 import {  CartContextProvider } from './context/CartContext'
+import Cart from './pages/Cart'
 
 
 function App() {
@@ -25,8 +26,8 @@ function App() {
         <Route path="/women" element={<Womens/>} />
         <Route path="/kids" element={<Kids/>} />
         <Route path="/login" element={<Login/>} />
-        <Route path="/product/:id" element={<Product
-        />} />
+        <Route path="/product/:id" element={<Product/>} />
+        <Route path='/cart' element={<Cart/>} />
       </Routes>
       <Footer/>
       </CartContextProvider>

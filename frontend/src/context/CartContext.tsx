@@ -32,9 +32,20 @@ export const cartReducer = (state: any, action: any) => {
         cart: [...action.payload]
       }
     case "REMOVE_CART":
-      return {
-        cart: state.cart.filter((item: any) => item.id !== action.payload)
-      }
+      console.log(action.payload);
+    
+        return {
+          cart: state.cart.filter((item:any)=>{
+            if(item.id == action.payload[0] && item.size == action.payload[1]){
+              return item.quantity -= 1
+            }
+            else{
+              return item
+            }
+          })
+        }
+      
+      
     default:
       return state
   }
