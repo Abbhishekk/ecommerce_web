@@ -1,3 +1,4 @@
+// import { Link } from "react-router-dom"
 import Card from "./Card"
 
 // import React from 'react'
@@ -23,11 +24,11 @@ const PageCards = (props:data_product) => {
         props.data_product.sort((a,b)=>a.new_price - b.new_price)
     }
   return (
-    <div className="grid md:grid-cols-4 grid-cols-2 w-4/5 gap-5 mb-10 mx-auto" >
+    <div className="grid md:grid-cols-4 grid-cols-2 w-4/5 gap-5 mb-10 mx-auto"  >
             {props.data_product.map((item)=>{
                 if(item.category == props.category){
                     return(
-                        <Card key={item.id} name={item.name} image={item.image} new_price={item.new_price} old_price={item.old_price} />
+                        <Card key={item.id} id={item.id} name={item.name} image={item.image} new_price={item.new_price} old_price={item.old_price} />
                     )
 
                 }

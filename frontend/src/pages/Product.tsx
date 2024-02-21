@@ -1,0 +1,93 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// import React from 'react'
+
+import { Link, useParams } from "react-router-dom"
+import data_product from "../components/assets/all_product"
+import { Rating } from "@material-tailwind/react";
+import { useState } from "react";
+const Product = () => {
+    const {id} = useParams();
+    const [size, setSize] = useState("");
+   
+
+    const product = data_product.find(product => product.id === Number(id))
+  return (
+    <div>
+        <div className="flex mx-auto w-4/5 items-center" >
+            <p>
+                <Link to={"/"} >HOME</Link> 
+                
+            </p>
+            <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+            </svg>
+            <p>
+                <Link to={"/"} >SHOP</Link> 
+                
+            </p>
+            <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+            </svg>
+            <p>
+                <Link to={`/${product?.category}`} >{product?.category.toUpperCase()}</Link> 
+                
+            </p>
+            <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+            </svg>
+            <p>{product?.name}</p>
+        </div>
+        <div className="flex ga flex-row mx-auto w-4/5 items-centent-start gap-10" >
+            <div className="container mx-auto w-1/2">
+                <div className="grid-cols-3  space-y-1  lg:space-y-0 lg:grid lg:gap-3 lg:grid-rows-3">
+                    
+                    <div className="w-full  flex justify-center p-2 col-span-3 row-span-1 rounded">
+                        <img src={product?.image}
+                            alt="image" className="object-contain bg-red-200 " />
+                    </div>
+                    <div className="w-full rounded ">
+                        <img src={product?.image}
+                            alt="image"/>
+                    </div>
+                    <div className="w-full rounded ">
+                        <img src={product?.image}
+                            alt="image"/>
+                    </div>
+                    <div className="w-full rounded ">
+                        <img src={product?.image}
+                            alt="image"/>
+                    </div>
+                    
+                </div>
+            </div>
+            <div className="w-1/2  " >
+                <h1 className="text-3xl" >{product?.name}</h1>
+                <p className="flex items-center gap-2" ><Rating value={4} className="flex flex-row text-yellow-500 bg-yellow-200 bg-clip-text" readonly placeholder={"ratings"} /> (122)</p>
+                <p className="text-xl  mt-10" ><del className="mr-10 font-bold text-slate-400 " >${product?.old_price}</del> <span className="text-orange-500 font-bold" >${product?.new_price}</span> </p>
+
+                <p className="text-lg mt-10" >
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Omnis accusantium cum rem nemo error sit consectetur, atque 
+                </p>
+                <div className="flex flex-col mt-10" >
+                    <p className="text-lg font-semibold text-slate-700" >Select Size</p>
+                    <div className="flex flex-row gap-2 w-full" >
+                        <p className={`p-5  w-full flex items-center justify-center hover:bg-orange-500 hover:text-white cursor-pointer  ${(size === "S")?("bg-orange-500 text-white"):("bg-slate-200")}`} onClick={()=>setSize("S")} >S</p>
+                        <p className={`p-5  w-full flex items-center justify-center hover:bg-orange-500 hover:text-white cursor-pointer  ${(size === "M")?("bg-orange-500 text-white"):("bg-slate-200")}`} onClick={()=>setSize("M")} >M</p>
+                        <p className={`p-5  w-full flex items-center justify-center hover:bg-orange-500 hover:text-white cursor-pointer  ${(size === "L")?("bg-orange-500 text-white"):("bg-slate-200")}`} onClick={()=>setSize("L")} >L</p>
+                        <p className={`p-5  w-full flex items-center justify-center hover:bg-orange-500 hover:text-white cursor-pointer  ${(size === "XL")?("bg-orange-500 text-white"):("bg-slate-200")}`} onClick={()=>setSize("XL")} >XL</p>
+                        <p className={`p-5  w-full flex items-center justify-center hover:bg-orange-500 hover:text-white cursor-pointer  ${(size === "XXL")?("bg-orange-500 text-white"):("bg-slate-200")}`} onClick={()=>setSize("XXl")} >XXl</p>
+                        
+                    </div>
+                    <div className="mt-5">
+                        <button className="my-3 md:px-16 border-2 border-orange-500 p-3  transition ease-in-out   rounded hover:bg-orange-500 hover:text-white" >Add To Cart</button>
+                    </div>
+                </div>
+                <p className="text-lg mt-10" ><span className="text-orange-500 font-bold" >Category: </span>{product?.category.toLocaleUpperCase()}</p>
+                <p className="text-lg mt-2" ><span className="text-orange-500 font-bold" >Tags: </span>{"Modern"}</p>
+            </div>
+        </div>
+    </div>
+  )
+}
+
+export default Product

@@ -8,6 +8,7 @@ import Mens from './pages/Mens'
 import Womens from './pages/Womens'
 import Kids from './pages/Kids'
 import Login from './pages/Login'
+import Product from './pages/Product'
 
 
 function App() {
@@ -23,6 +24,8 @@ function App() {
         <Route path="/women" element={<Womens/>} />
         <Route path="/kids" element={<Kids/>} />
         <Route path="/login" element={<Login/>} />
+        <Route path="/product/:id" element={<Product
+        />} />
       </Routes>
       <Footer/>
     
