@@ -12,34 +12,34 @@ const Product = () => {
 
     const product = data_product.find(product => product.id === Number(id))
   return (
-    <div>
+    <div className="" >
         <div className="flex mx-auto w-4/5 items-center" >
             <p>
                 <Link to={"/"} >HOME</Link> 
                 
             </p>
             <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
             </svg>
             <p>
                 <Link to={"/"} >SHOP</Link> 
                 
             </p>
             <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
             </svg>
             <p>
                 <Link to={`/${product?.category}`} >{product?.category.toUpperCase()}</Link> 
                 
             </p>
             <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
             </svg>
             <p>{product?.name}</p>
         </div>
-        <div className="flex ga flex-row mx-auto w-4/5 items-centent-start gap-10" >
+        <div className="flex  flex-row mx-auto w-4/5  md:gap-10" >
             <div className="container mx-auto w-1/2">
-                <div className="grid-cols-3  space-y-1  lg:space-y-0 lg:grid lg:gap-3 lg:grid-rows-3">
+                <div className="grid-cols-3  lg:grid lg:gap-3 lg:grid-rows-2">
                     
                     <div className="w-full  flex justify-center p-2 col-span-3 row-span-1 rounded">
                         <img src={product?.image}
@@ -62,7 +62,7 @@ const Product = () => {
             </div>
             <div className="w-1/2  " >
                 <h1 className="text-3xl" >{product?.name}</h1>
-                <p className="flex items-center gap-2" ><Rating value={4} className="flex flex-row text-yellow-500 bg-yellow-200 bg-clip-text" readonly placeholder={"ratings"} /> (122)</p>
+                <div className="flex items-center gap-2" ><Rating value={4} className="flex flex-row text-yellow-500 bg-yellow-200 bg-clip-text" readonly placeholder={"ratings"} /> (122)</div>
                 <p className="text-xl  mt-10" ><del className="mr-10 font-bold text-slate-400 " >${product?.old_price}</del> <span className="text-orange-500 font-bold" >${product?.new_price}</span> </p>
 
                 <p className="text-lg mt-10" >
