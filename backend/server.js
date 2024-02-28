@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 // app.use(express.json());
 
-const allowedOrigins = ['http://localhost:5173']; // Replace with your allowed origins
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000']; // Replace with your allowed origins
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -45,9 +45,10 @@ const upload = multer({
 app.use("/upload",express.static("./upload"))
 
 app.post("/upload",upload.single('product'),(req,res)=>{
+    console.log(req.files);
     res.json({
         success:1,
-        image_url:`http://localhost:${process.env.PORT}/images/${req.file.filename}`
+        image_url:`http://localhost:${process.env.PORT}/upload/images/${req.file.filename}`
     })
 });
 
