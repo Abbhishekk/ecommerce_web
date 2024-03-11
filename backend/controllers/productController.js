@@ -10,7 +10,7 @@ const add_product = async(req,res) =>{
 
         name,
         category,
-        new_price,
+        new_price, 
         old_price,
         image,
         available

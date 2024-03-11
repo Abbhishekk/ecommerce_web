@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // import React from 'react'
-import axios from "axios"
-// import { useEffect } from "react"
+
 import imageUpload from "../assets/upload_area.svg";
 import {useForm} from "react-hook-form"
 import {   useState } from "react";
+import axios from "axios";
+import { Alert } from "@material-tailwind/react";
 enum category{
   Men="Men",
   Women="women",
@@ -15,33 +16,55 @@ interface Inputs{
   price:number
   offer_price:number
   category:category
-  image:Blob
+
 }
 const AddProduct = () => {
+  const [value,setvalue] = useState<Blob>({} as Blob)
   const {register,handleSubmit,formState:{errors}} = useForm<Inputs>()
   const [image, setImage] = useState<Blob | null>(null);
-
+  const [success,setSuccess] = useState(false)
+  console.log(success);
+  
   const imageHandler = (e:any) => {
     setImage(e.target.files[0]);  
+    setvalue(e.target.files[0])
   }
   
   const onSubmit = async(data:Inputs) => {
-    console.log(data);
+    
+    
     
     const formData = new FormData();
-    let resData;
-    formData.append('product', data.image);
+  
+    formData.append('product', value);
+   
+    
+  
 
     try {
-      await fetch('http://localhost:4000/upload', {
-        method: 'POST',
-        body: formData.get("product")
-      }).then((res)=>
-        res.json()
-      ).then((data)=>{
-        resData = data;
-      });
-      console.log( resData);
+      const fetch =  await axios.post('http://localhost:4000/upload',  formData,{
+          headers: {
+            'Content-Type': 'multipart/form-data',
+        }
+      })
+      console.log( fetch);
+      if(fetch.status === 200){
+        const formInputs = {
+          name:data.name,
+          old_price:data.price,
+          new_price:data.offer_price,
+          category:data.category,
+          image: fetch.data.image_url,
+          available: true,
+        }
+        console.log(formInputs);
+        
+        const response = await axios.post("http://localhost:4000/product/add_product",formInputs)
+        console.log(response.data)
+        if(response.status === 200){
+          setSuccess(true)
+        }
+      }
       
       // Handle successful response
     } catch (error) {
@@ -53,7 +76,19 @@ const AddProduct = () => {
   
   return (
     <div>
+      
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data" className="flex flex-wrap">
+      {success && (
+        <Alert  className="w-full relative text-slate-50 rounded  p-2 bg-green-800" >Product Added Successfully 
+          <p className="absolute right-2 top-2 hover:text-red-500 cursor-pointer" onClick={() => setSuccess(false)}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+
+          </p>
+        </Alert >
+
+      )}
         <div className="flex flex-col gap-2 w-full" >
           <label htmlFor="name" className="font-semibold text-sm text-slate-600">Product Title</label>
           <input type="text" className="border-2 border-slate-300 p-2 rounded focus:outline-none" placeholder="Product Title" {...register("name",{required:true})} />
@@ -82,8 +117,8 @@ const AddProduct = () => {
           <label htmlFor="image" className="font-semibold text-sm text-slate-600">
             <img src={image?URL.createObjectURL(image):imageUpload} alt="" className="w-52" />
           </label>
-          <input type="file" {...register("image",{required:true})} onChange={imageHandler}  id="image" className="border-2 border-slate-300 p-2 rounded focus:outline-none" hidden  />
-          {errors.image && <p className="text-red-500" >{"image is required"}</p>}
+          <input type="file" onChange={imageHandler}  id="image" className="border-2 border-slate-300 p-2 rounded focus:outline-none" hidden  />
+       
         </div>
         <button type="submit" className="w-1/2 font-bold mt-5 bg-orange-500 mx-auto text-white p-2 rounded hover:bg-white hover:text-orange-500 hover:border-2 hover:border-orange-500  transition-all duration-500" >Add</button>
       </form>

@@ -45,7 +45,8 @@ const upload = multer({
 app.use("/upload",express.static("./upload"))
 
 app.post("/upload",upload.single('product'),(req,res)=>{
-    console.log(req.files);
+    // console.log(req.files);
+    // console.log(req.body);
     res.json({
         success:1,
         image_url:`http://localhost:${process.env.PORT}/upload/images/${req.file.filename}`
