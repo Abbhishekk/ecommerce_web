@@ -23,7 +23,7 @@ const AddProduct = () => {
   const {register,handleSubmit,formState:{errors}} = useForm<Inputs>()
   const [image, setImage] = useState<Blob | null>(null);
   const [success,setSuccess] = useState(false)
-  console.log(success);
+ 
   
   const imageHandler = (e:any) => {
     setImage(e.target.files[0]);  
@@ -37,34 +37,28 @@ const AddProduct = () => {
     const formData = new FormData();
   
     formData.append('product', value);
-   
+    formData.append('name', data.name);
+    formData.append('new_price', `${data.price}`);
+    formData.append('old_price', `${data.offer_price}`);
+    formData.append('category', data.category);
+    formData.append('available', 'true');
+    console.log(formData.get('product'));
     
   
 
     try {
-      const fetch =  await axios.post('http://localhost:4000/upload',  formData,{
-          headers: {
-            'Content-Type': 'multipart/form-data',
-        }
-      })
-      console.log( fetch);
-      if(fetch.status === 200){
-        const formInputs = {
-          name:data.name,
-          old_price:data.price,
-          new_price:data.offer_price,
-          category:data.category,
-          image: fetch.data.image_url,
-          available: true,
-        }
-        console.log(formInputs);
-        
-        const response = await axios.post("http://localhost:4000/product/add_product",formInputs)
+      console.log("inside try");
+      
+        const response = await axios.post("http://localhost:4000/product/add_product",formData,{
+          headers:{
+            "Content-Type":"multipart/form-data",
+          }
+        })
         console.log(response.data)
         if(response.status === 200){
           setSuccess(true)
         }
-      }
+      
       
       // Handle successful response
     } catch (error) {

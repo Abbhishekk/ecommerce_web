@@ -1,19 +1,44 @@
 import productModel from "../models/productModel.js";
 import { Types } from "mongoose";
-import axios from "axios";
+import {uploadOnCloudinary} from "../utils/cloudinary.js";
+import { ApiError } from "../utils/APIError.js";
+
 export const add_product = async(req,res) =>{
-    // console.log(req.body);
-    const { name, category, new_price, image,old_price,  available } = req.body;
+   
+    const { name, category, new_price, old_price,  available } = req.body;
+ 
+    if([ name, category, new_price, old_price,  available].some((field) => field?.trim() === "")
+    ){
+        throw new ApiError (401,"All fields are required");
+    }
     try{
-
+        const imageLocalPath = req.files?.product[0]?.path;
+      
+        if(!imageLocalPath){
+            throw new ApiError (401,"Image is required");
+        }
+        const image= await uploadOnCloudinary(imageLocalPath);
+        
+        let programs = await productModel.find({});
+    
+        let id;
+        if(programs.length>0){
+            let last_program = programs.slice(-1);
+            let last = last_program[0];
+            id = last.id + 1
+        }
+        else{
+            id = 1;
+        }
+    
         const product = await  productModel.create({
-
-        name,
-        category,
-        new_price, 
-        old_price,
-        image,
-        available
+        id:id,
+        name:name,
+        category:category,
+        new_price:new_price, 
+        old_price:old_price,
+        image:image.secure_url,
+        available:true
 
         })
         res.status(200).json(product)

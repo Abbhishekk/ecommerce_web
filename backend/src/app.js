@@ -32,26 +32,9 @@ app.use((req,res,next)=>{
     next();
 })
 
-const storage = diskStorage({
-    destination: "./upload/images",
-    filename: (req,file,cb)=>{
-        cb(null,`${file.fieldname}_${Date.now()}_${file.originalname}`)
-    }
-})
 
-const upload = multer({
-    storage: storage
-})
-app.use("/upload",express.static("./upload"))
+ 
 
-app.post("/upload",upload.single('product'),(req,res)=>{
-    // console.log(req.files);
-    // console.log(req.body);
-    res.json({
-        success:1,
-        image_url:`http://localhost:${process.env.PORT}/upload/images/${req.file.filename}`
-    })
-});
 
 app.use("/user",userRoutes)
 

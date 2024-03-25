@@ -3,7 +3,10 @@ import { Schema, model } from "mongoose";
 const schema = Schema;
 
 const product = new schema({
-   
+    id: {
+        type: Number,
+        required: true
+    },
     name: {
         type: String,
         required: true
