@@ -11,6 +11,7 @@ import Login from './pages/Login'
 import Product from './pages/Product'
 import {  CartContextProvider } from './context/CartContext'
 import Cart from './pages/Cart'
+import SignUp from './pages/SignUp'
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/women" element={<Womens/>} />
         <Route path="/kids" element={<Kids/>} />
         <Route path="/login" element={<Login/>} />
+        <Route path="/signup" element={<SignUp/>} />
         <Route path="/product/:id" element={<Product/>} />
         <Route path='/cart' element={<Cart/>} />
       </Routes>

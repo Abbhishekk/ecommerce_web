@@ -1,6 +1,6 @@
-// import React from 'react'
+ import React from 'react'
 
-const Login = () => {
+const Login:React.FC = () => {
   return (
     <div className="w-full flex justify-center items-center bg-gradient-to-b from-red-100 to-slate-100 md:mb-24 " >
         <div className=" md:w-1/3 md:h-96 flex flex-col justify-center bg-slate-100 shadow-2xl mt-10  p-10" >
@@ -18,6 +18,7 @@ const Login = () => {
                 </div>
                 <button type="submit" className="my-3 w-full border-2 border-orange-500 p-3  transition ease-in-out   rounded-3xl hover:bg-orange-500 hover:text-white" >Login</button>
             </form>
+            <p className="text-center" >Don't have an account? <a href="/signup" className="text-orange-500 font-semibold" >Sign Up</a></p>
         </div>
     </div>
   )

@@ -1,12 +1,12 @@
-require("dotenv").config();
-const express = require("express");
-const mongoose = require("mongoose");
-const cors =  require("cors");
-const multer = require("multer");
+import dotenv from "dotenv";
+import express from "express";
+
+import cors from "cors";
+import multer, { diskStorage } from "multer";
 // const bodyParser = require('body-parser');
 
-const userRoutes = require("./routes/userRoutes");
-
+import userRoutes from "./routes/userRoutes.js";
+dotenv.config();
 const app = express();
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -32,7 +32,7 @@ app.use((req,res,next)=>{
     next();
 })
 
-const storage = multer.diskStorage({
+const storage = diskStorage({
     destination: "./upload/images",
     filename: (req,file,cb)=>{
         cb(null,`${file.fieldname}_${Date.now()}_${file.originalname}`)
@@ -54,12 +54,10 @@ app.post("/upload",upload.single('product'),(req,res)=>{
 });
 
 app.use("/user",userRoutes)
-app.use("/product",require("./routes/productRoutes"))
 
-mongoose.connect(process.env.MONG_URI).then(()=>{
-    app.listen(process.env.PORT, () => {console.log("Server started on port "+process.env.PORT)});
-    
-})
-.catch((error)=>{
-    console.log(error);
-})
+import productRouter from "./routes/productRoutes.js";
+app.use("/product",productRouter)
+
+
+
+export default app
