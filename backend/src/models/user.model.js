@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const userSchema = new mongoose.Schema({
+   
     firstname: {
         type: String,
         required: true
@@ -23,6 +24,10 @@ const userSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,//cloudinary url
+    },
+    role: {
+        type: String,
+        default: "user"
     }
 }, 
 
@@ -47,7 +52,7 @@ userSchema.methods.generateAccessToken = function(){
             _id: this._id,
             email: this.email,
            
-            fullName: this.fullName
+            
         },
         process.env.ACCESS_TOKEN_SECRET,
         {

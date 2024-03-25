@@ -1,6 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
  import React from 'react'
 
-const Login:React.FC = () => {
+interface Props{
+    logout?: any
+}
+
+const Login:React.FC<Props> = () => {
+   
   return (
     <div className="w-full flex justify-center items-center bg-gradient-to-b from-red-100 to-slate-100 md:mb-24 " >
         <div className=" md:w-1/3 md:h-96 flex flex-col justify-center bg-slate-100 shadow-2xl mt-10  p-10" >

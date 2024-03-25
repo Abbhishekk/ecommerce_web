@@ -1,7 +1,7 @@
 import productModel from "../models/productModel.js";
 import { Types } from "mongoose";
 import {uploadOnCloudinary} from "../utils/cloudinary.js";
-import { ApiError } from "../utils/APIError.js";
+import  ApiError  from "../utils/APIError.js";
 
 export const add_product = async(req,res) =>{
    
