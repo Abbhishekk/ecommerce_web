@@ -4,6 +4,8 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import uploadArea from "../components/assets/upload_area.svg"
 import axios from 'axios'
 import { useAuthContext } from '../hooks/useAuthContext'
+import { Alert } from "@material-tailwind/react";
+
 
 interface Inputs  {
     firstName: string,
@@ -18,8 +20,10 @@ interface Inputs  {
 const SignUp:React.FC = () => {
     const {register, handleSubmit, formState: error} = useForm<Inputs>();
     const {dispatch} = useAuthContext()
+    const [loading,setLoading] = useState<boolean>(false)
     const [image,setImage] = useState<Blob | null>(null);
     const [errorState, setErrorState] = useState<string>("");
+    const [resError, setResError] = useState<string>("");
     const [imageValue, setImageValue] = useState<string>("");
     const [show,setShow] = useState(false)
     const imageHandler = (e:any) => {
@@ -27,8 +31,10 @@ const SignUp:React.FC = () => {
         setImageValue(URL.createObjectURL(e.target.files[0]))
     }
     const submitHandler:SubmitHandler<Inputs> = async(data) => {
+        setLoading(true)
             console.log(data);
             if(!image){
+                setLoading(false)
                 return setErrorState("Please select an image")
             }
             const formData = new FormData();
@@ -39,19 +45,31 @@ const SignUp:React.FC = () => {
             formData.append("password", data.password)
             formData.append("rePassword", data.rePassword)
             formData.append("role", "user")
-            const res = await axios.post("http://localhost:4000/user/signup",formData)
-            if(res.data){
-                console.log(res.data);
-                console.log(res.data?.user);
-                localStorage.setItem("user",JSON.stringify(res.data?.data.user))
-                dispatch({type:"LOGIN", payload:res.data.data.user})
+            try {
+                const res = await axios.post("http://localhost:4000/user/signup",formData)
+                if(res.status == 200){
+                    
+                    console.log(res.data?.data);
+                    localStorage.setItem("user",JSON.stringify(res.data?.data.user))
+                    dispatch({type:"LOGIN", payload:res.data.data.user})
+                }
+                else{
+                   throw new Error(res.data.data)
+                    
+                }
+            } catch (error:any) {
+                console.log(error.response.data.data);
+                setResError(error.response.data.data)
             }
+            setLoading(false)
+            
             
     }
     return (
       <div className="w-full flex justify-center items-center bg-gradient-to-b from-red-100 to-slate-100 md:mb-24 " >
           <div className=" md:w-1/3 md:h-1/3 flex flex-col justify-center bg-slate-100 shadow-2xl mt-10  p-10" >
               <h3 className="text-2xl font-semibold text-orange-500" >Sign up</h3>
+                <Alert color='red' className='my-3 py-2 px-3 rounded-xl w-full bg-red-600'>{resError}</Alert>
               <form onSubmit={handleSubmit(submitHandler)} className="grid grid-cols-2 gap-2 " >
                 <div className='my-3 w-full items-center justify-center flex flex-col  col-span-2' >
                     <label htmlFor="image">
@@ -102,7 +120,9 @@ const SignUp:React.FC = () => {
                       <input type={(show)?"text":"password"} id="repassword" {...register("rePassword", {required: {value: true, message: "rePassword is required"}})} placeholder="Enter Password Again" className="w-full p-3 focus:outline-none outline outline-red-200 rounded-xl" />
                         {error?.errors?.rePassword && <p className="text-red-500" >{error?.errors?.rePassword?.message}</p>}
                   </div>
-                  <button type="submit" className="my-3 col-span-2 w-full border-2 border-orange-500 p-3  transition ease-in-out   rounded-3xl hover:bg-orange-500 hover:text-white" >Register</button>
+                  <button type="submit" className="my-3 col-span-2 w-full border-2 border-orange-500 p-3  transition ease-in-out   rounded-3xl hover:bg-orange-500 hover:text-white" disabled={loading} >
+                    {(loading)?("Loading...."):"Sign Up"}
+                  </button>
               </form>
               <p className="text-center" >Already have an account? <a href="/login" className="text-orange-500 font-semibold" >Login</a></p>
           </div>

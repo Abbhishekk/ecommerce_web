@@ -5,9 +5,9 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const generateAccessTokenandRefreshToken = async(userId) => {
     try {
-        console.log(userId);
+       
         const User = await userModel.findById({_id: userId})
-        console.log(User);
+        
         const accessToken= User.generateAccessToken();
         const refreshToken= User.generateRefreshToken();
 
@@ -40,15 +40,25 @@ export const signup = async(req,res) => {
     if(password !== rePassword){
         return new ApiErr(400, "Passwords do not match")
     }
+    const existingUser = await userModel.findOne({
+        $or: [{
+            email: email
+        }]
+    });
+    console.log(existingUser);
+    if(existingUser ){
+        console.log("User already exists");
+        return res.status(400).json(new ApiErr(400, "User already exists", [],"","User with that email already exists"))
+    }
 
     try {
         const localFilePath = req.files?.avatar[0]?.path;
         if(!localFilePath){
-            return new ApiErr(400, "Image is required")
+            return res.status(400).json(new ApiErr(400, "Image is required", [],"","Image is required"))
         }
-        console.log(localFilePath);
+      
         const avatar = await uploadOnCloudinary(localFilePath);
-        console.log(avatar);
+       
         const user = await userModel.create({
             firstname: firstName,
             lastname: lastName,
@@ -57,16 +67,16 @@ export const signup = async(req,res) => {
             avatar: avatar.secure_url,
             role: "user"
         })
-        console.log(user);
+       
         const createdUser = await userModel.findById({_id: user._id}).select(
             "-password -refreshtoken"
         )
-        console.log(createdUser);
+       
         if(!createdUser){
             return res.status(500).json( new ApiResponse(500, "Something went wrong registering"));
          }
          const {accessToken, refreshToken}=await generateAccessTokenandRefreshToken(user._id);
-         console.log(accessToken, refreshToken);
+         
          return res
          .status(200)
          .json(
