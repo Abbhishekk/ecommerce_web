@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import React from 'react'
 
-import { Link, useParams } from "react-router-dom"
+import {  useParams } from "react-router-dom"
 import data_product from "../components/assets/all_product"
 import { Rating } from "@material-tailwind/react";
 import { useState } from "react";
 // import { CartContextProvider } from "../context/CartContext";
 import { useCart } from "../hooks/useCartHooks";
+import BreadCrumbs from "../components/BreadCrumbs";
 const Product = () => {
     const {id} = useParams();
     const [size, setSize] = useState("S");
@@ -42,30 +43,8 @@ const Product = () => {
     }
   return (
     <div className="" >
-        <div className="flex mx-auto w-4/5 items-center" >
-            <p>
-                <Link to={"/"} >HOME</Link> 
-                
-            </p>
-            <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
-            </svg>
-            <p>
-                <Link to={"/"} >SHOP</Link> 
-                
-            </p>
-            <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
-            </svg>
-            <p>
-                <Link to={`/${product?.category}`} >{product?.category.toUpperCase()}</Link> 
-                
-            </p>
-            <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
-            </svg>
-            <p>{product?.name}</p>
-        </div>
+        <BreadCrumbs category={product?.category} name={product?.name} />
+       
         <div className="flex  flex-row mx-auto w-4/5  md:gap-10" >
             <div className="container mx-auto w-1/2">
                 <div className="grid-cols-3  lg:grid lg:gap-3 lg:grid-rows-2">
