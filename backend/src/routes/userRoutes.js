@@ -4,7 +4,7 @@ const userRoutes = Router();
 import { login, signup } from "../controllers/userControllers.js";
 
 
-userRoutes.get("/login",login)
+userRoutes.post("/login",login)
 userRoutes.post("/signup",
     upload.fields([
         {

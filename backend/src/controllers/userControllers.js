@@ -10,7 +10,7 @@ const generateAccessTokenandRefreshToken = async(userId) => {
         
         const accessToken= User.generateAccessToken();
         const refreshToken= User.generateRefreshToken();
-
+        
         User.refreshtoken=refreshToken;
         await User.save({validateBeforeSave:false}); // to just not save password everytime
 
@@ -24,9 +24,48 @@ const generateAccessTokenandRefreshToken = async(userId) => {
         return new ApiErr(500, "Something went wrong");
     }
 };
-export const login = (req,res)=>{
-    console.log("Login");
-    res.send("Login")
+export const login = async(req,res)=>{
+    
+    const { email, password} = req.body;
+    
+
+    const User = await userModel.findOne({
+        $or: [{email}]
+    })
+
+    if(!User){
+        return res.status(404).json("User not found");
+     
+    }
+    
+    const ispasswordCorrect = await User.isPasswordCorrect(password);
+
+    if(!ispasswordCorrect){
+        return res.status(401).json("Incorrect Password");
+       
+    }
+
+    const {accessToken, refreshToken}=await generateAccessTokenandRefreshToken(User._id);
+
+    const loggedInUser= await userModel.findById(User._id).select("-password -refreshtoken")
+    console.log(accessToken, refreshToken);
+    const options ={
+        httpOnly: true,
+        secure:true
+    }
+    res.cookie("accesstoken", accessToken,options)
+    res.cookie("refreshtoken", refreshToken,options)
+    return res
+    .status(200).json(
+        new ApiResponse(
+            200,
+            {
+                user:loggedInUser,accessToken:accessToken, refreshToken:refreshToken
+            },
+            "User Logged In successfully"
+        )
+    )
+
 }
 
 
