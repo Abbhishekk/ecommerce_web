@@ -6,6 +6,7 @@ import {useForm} from "react-hook-form"
 import {   useState } from "react";
 import axios from "axios";
 import { Alert } from "@material-tailwind/react";
+import { useAuthContext } from "../hook/useAuthContext";
 enum category{
   Men="Men",
   Women="women",
@@ -23,7 +24,8 @@ const AddProduct = () => {
   const {register,handleSubmit,formState:{errors}} = useForm<Inputs>()
   const [image, setImage] = useState<Blob | null>(null);
   const [success,setSuccess] = useState(false)
- 
+  const {accessToken} = useAuthContext()
+  const [loading,setLoading] = useState(false)
   
   const imageHandler = (e:any) => {
     setImage(e.target.files[0]);  
@@ -31,7 +33,7 @@ const AddProduct = () => {
   }
   
   const onSubmit = async(data:Inputs) => {
-    
+    setLoading(true);
     
     
     const formData = new FormData();
@@ -42,7 +44,7 @@ const AddProduct = () => {
     formData.append('old_price', `${data.offer_price}`);
     formData.append('category', data.category);
     formData.append('available', 'true');
-    console.log(formData.get('product'));
+
     
   
 
@@ -52,9 +54,10 @@ const AddProduct = () => {
         const response = await axios.post("http://localhost:4000/product/add_product",formData,{
           headers:{
             "Content-Type":"multipart/form-data",
+            "Authorization": `Bearer ${accessToken}`
           }
         })
-        console.log(response.data)
+   
         if(response.status === 200){
           setSuccess(true)
         }
@@ -65,7 +68,7 @@ const AddProduct = () => {
       console.log(error);
       // Handle errors
     }
-    
+    setLoading(false)
   }
   
   return (
@@ -114,7 +117,8 @@ const AddProduct = () => {
           <input type="file" onChange={imageHandler}  id="image" className="border-2 border-slate-300 p-2 rounded focus:outline-none" hidden  />
        
         </div>
-        <button type="submit" className="w-1/2 font-bold mt-5 bg-orange-500 mx-auto text-white p-2 rounded hover:bg-white hover:text-orange-500 hover:border-2 hover:border-orange-500  transition-all duration-500" >Add</button>
+        <button type="submit" className="w-1/2 font-bold mt-5 bg-orange-500 mx-auto text-white p-2 rounded hover:bg-white hover:text-orange-500 hover:border-2 hover:border-orange-500  transition-all duration-500" disabled={(loading)?(true):(false)} >{
+        (loading)?("Loading..."):("Add Product")}</button>
       </form>
     </div>
   )

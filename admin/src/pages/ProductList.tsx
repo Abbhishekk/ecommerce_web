@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import RowSkeleton from "../components/RowSkeleton"
+import { useAuthContext } from "../hook/useAuthContext"
 
 // import React from 'react'
 type productItem = {
@@ -15,9 +16,13 @@ type productItem = {
 
 const ProductList = () => {
   const [products,setProducts] = useState([]);
-
+  const {accessToken} = useAuthContext()
   const deleteProduct = async (id:string) => {
-    await axios.delete(`http://localhost:4000/product/deleteProduct/${id}`);
+    await axios.delete(`http://localhost:4000/product/deleteProduct/${id}`,{
+      headers:{
+        "Authorization": `Bearer ${accessToken}`
+      }
+    });
     const newProducts = products.filter((product:productItem) => product._id !== id)
     setProducts(newProducts)
   }
