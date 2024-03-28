@@ -68,12 +68,54 @@ export const login = async(req,res)=>{
 
 }
 
+export const adminLogin = async(req,res) =>{
+    const { email, password} = req.body;
+    
+
+    const User = await userModel.findOne({
+        $and: [{email, role:"admin"}]
+    })
+
+    if(!User){
+        return res.status(404).json("User not found");
+     
+    }
+    
+    const ispasswordCorrect = await User.isPasswordCorrect(password);
+
+    if(!ispasswordCorrect){
+        return res.status(401).json("Incorrect Password");
+       
+    }
+
+    const {accessToken, refreshToken}=await generateAccessTokenandRefreshToken(User._id);
+
+    const loggedInUser= await userModel.findById(User._id).select("-password -refreshtoken")
+    console.log(accessToken, refreshToken);
+    const options ={
+        httpOnly: true,
+        secure:true
+    }
+    res.cookie("accesstoken", accessToken,options)
+    res.cookie("refreshtoken", refreshToken,options)
+    return res
+    .status(200).json(
+        new ApiResponse(
+            200,
+            {
+                user:loggedInUser,accessToken:accessToken, refreshToken:refreshToken
+            },
+            "User Logged In successfully"
+        )
+    )
+}
+
 
 
 export const signup = async(req,res) => {
     
-    const {firstName, lastName, email, password, rePassword} = req.body;
-    if([firstName, lastName, email, password, rePassword].some((field) => field?.trim() === "")){
+    const {firstName, lastName, email, password, rePassword,role} = req.body;
+    if([firstName, lastName, email, password, rePassword,role].some((field) => field?.trim() === "")){
         return res.status(400).json({message: "All fields are required"})
     }
     if(password !== rePassword){
@@ -104,7 +146,7 @@ export const signup = async(req,res) => {
             email: email,
             password: password,
             avatar: avatar.secure_url,
-            role: "user"
+            role: role
         })
        
         const createdUser = await userModel.findById({_id: user._id}).select(
