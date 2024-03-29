@@ -11,9 +11,10 @@ import Login from './pages/Login'
 import { useAuthContext } from './hook/useAuthContext'
 
 
+
 function App() {
   const {user} = useAuthContext();
-
+  
   return (
     <>
       <BrowserRouter>
@@ -22,8 +23,8 @@ function App() {
           
         <Routes>
           <Route element={(!user)?(<Navigate to="/login"/>): (<Layout/>)} >
-          <Route path="/" element={<ProductList/>} />
-          <Route path="/add_product" element={<AddProduct/>} />
+            <Route path="/" element={<ProductList/>} />
+            <Route path="/add_product" element={<AddProduct/>} />
           </Route>
           <Route path='/login' element={(user)?(<Navigate to={"/"}/>):(<Login/>)} />
         </Routes>

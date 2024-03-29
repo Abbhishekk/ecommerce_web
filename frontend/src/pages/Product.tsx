@@ -2,18 +2,20 @@
 // import React from 'react'
 
 import {  useParams } from "react-router-dom"
-import data_product from "../components/assets/all_product"
+
 import { Rating } from "@material-tailwind/react";
 import { useState } from "react";
 // import { CartContextProvider } from "../context/CartContext";
 import { useCart } from "../hooks/useCartHooks";
 import BreadCrumbs from "../components/BreadCrumbs";
+import { useProductContext } from "../hooks/useProductContext";
 const Product = () => {
+    const {product:products} = useProductContext();
     const {id} = useParams();
     const [size, setSize] = useState("S");
     const {cart, dispatch} = useCart()
     
-    const product = data_product.find(product => product.id === Number(id))
+    const product = products.find(product => product.id === Number(id))
 
     const addToCart= () =>{
         console.log(cart.find(item => item.id === Number(id) && item.size === size));
@@ -47,24 +49,13 @@ const Product = () => {
        
         <div className="flex  flex-row mx-auto w-4/5  md:gap-10" >
             <div className="container mx-auto w-1/2">
-                <div className="grid-cols-3  lg:grid lg:gap-3 lg:grid-rows-2">
+                <div className=" ">
                     
-                    <div className="w-full  flex justify-center p-2 col-span-3 row-span-1 rounded">
+                    <div className="w-full  flex justify-center p-2 rounded">
                         <img src={product?.image}
-                            alt="image" className="object-contain bg-red-200 " />
+                            alt="image" className="object-contain w-2/3 h-1/2 bg-red-200 " />
                     </div>
-                    <div className="w-full rounded ">
-                        <img src={product?.image}
-                            alt="image"/>
-                    </div>
-                    <div className="w-full rounded ">
-                        <img src={product?.image}
-                            alt="image"/>
-                    </div>
-                    <div className="w-full rounded ">
-                        <img src={product?.image}
-                            alt="image"/>
-                    </div>
+                   
                     
                 </div>
             </div>

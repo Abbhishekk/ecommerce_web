@@ -1,10 +1,13 @@
 
+import { useProductContext } from "../hooks/useProductContext"
 import Cards from "./Cards"
-import data_product from "./assets/data"
+
 
 // import React from 'react'
 
 const PopularWomen = () => {
+  const {product} = useProductContext();
+  const data_product = product.filter(product => product.category === "Women");
   return (
     <div>
         <h1 className="text-3xl font-bold text-center" >POPULAR IN WOMEN</h1>

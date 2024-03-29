@@ -1,10 +1,12 @@
 // import React from 'react'
 
 import kidBanner from "../components/assets/banner_kids.png";
-import all_product from "../components/assets/all_product";
+
 import PageCards from "../components/PageCards";
 import { useState } from "react";
+import { useProductContext } from "../hooks/useProductContext";
 const Kids = () => {
+    const {product} = useProductContext();
     const [sort,setSort] = useState<string>('');
     console.log(sort)
   return (
@@ -23,7 +25,7 @@ const Kids = () => {
             </p>
         </div>
         <div className="flex flex-col" >
-            <PageCards data_product={all_product} category="kid" sort={sort} />
+            <PageCards data_product={product} category="Kid" sort={sort} />
             <button className="text-lg font-semibold mt-5 border-2 border-orange-500 p-3  transition ease-in-out   rounded-3xl hover:bg-orange-500 hover:text-white  mx-auto" >Explore More</button>
         </div>
     </div>

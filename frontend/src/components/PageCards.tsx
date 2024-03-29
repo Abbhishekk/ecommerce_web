@@ -1,7 +1,7 @@
 // import { Link } from "react-router-dom"
 import Card from "./Card"
 
-// import React from 'react'
+ import React from 'react'
 interface CardProps {
     id: number
     category: string
@@ -9,6 +9,7 @@ interface CardProps {
     image: string
     new_price: number
     old_price: number
+    available: boolean
 }
 type data_product = {
     data_product:CardProps[],
@@ -16,7 +17,7 @@ type data_product = {
     sort: string
 }
 
-const PageCards = (props:data_product) => {
+const PageCards:React.FC<data_product> = (props) => {
     if(props.sort == 'htl'){
         props.data_product.sort((a,b)=>b.new_price - a.new_price)
     }
