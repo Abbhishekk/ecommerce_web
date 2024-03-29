@@ -9,6 +9,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import { Editor as TinyMCEEditor } from 'tinymce';
 import { Alert } from "@material-tailwind/react";
 import { useAuthContext } from "../hook/useAuthContext";
+
 enum category{
   Men="Men",
   Women="women",
@@ -23,7 +24,7 @@ interface Inputs{
 }
 const AddProduct = () => {
   const editorRef = useRef<TinyMCEEditor | null>(null);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState("Enter Description");
   const log = () => {
     if (editorRef.current) {
       setContent(editorRef.current.getContent());
@@ -132,11 +133,14 @@ const AddProduct = () => {
         <Editor
          onInit={(_evt, editor) => editorRef.current = editor}
          initialValue={`${content}`}
+        
          onChange={log}
          apiKey='l73m1lirijcz04876fwwh47xdw9nx4wwqplu8db4fvkqodi5'
          init={{
-           height: 500,
+           height: 250,
            menubar: false,
+           branding: false,
+           body_class: 'border-2 border-slate-300 p-2 rounded focus:outline-none',
            plugins: [
              'advlist autolink lists link image charmap print preview anchor',
              'searchreplace visualblocks code fullscreen',
@@ -146,7 +150,7 @@ const AddProduct = () => {
            'bold italic backcolor | alignleft aligncenter ' +
            'alignright alignjustify | bullist numlist outdent indent | ' +
            'removeformat | help',
-           content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+           content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; }'
          }}
        />
        

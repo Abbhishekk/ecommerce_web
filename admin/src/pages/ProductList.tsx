@@ -50,30 +50,32 @@ const ProductList = () => {
             </tr>
           </thead>
           <tbody  >
-            {products && products.map((product:productItem)=>{
-              return (
-                <tr className="hover:bg-slate-300 border-b-2 border-slate-300 mt-5" key={product._id} >
-                  <td className="p-5" ><img src={product.image} alt={product.name} width={150} /></td>
-                  <td className="p-5">{product.name}</td>
-                  <td className="p-5">${product.old_price}</td>
-                  <td className="p-5">${product.new_price}</td>
-                  <td className="p-5">{product.category}</td>
-                  <td className="p-5"><button className="bg-red-500 text-white px-3 py-1 rounded" onClick={() => deleteProduct(product._id)} >Delete</button></td>
-                </tr>
-              )
-            })}
-           
-          </tbody>
-          {
-              !products && (
-                <tbody>
+            {
+              (products.length !== 0)? (
+                products.map((product:productItem)=>{
+                  return (
+                    <tr className="hover:bg-slate-300 border-b-2 border-slate-300 mt-5" key={product._id} >
+                      <td className="p-5" ><img src={product.image} alt={product.name} width={50} /></td>
+                      <td className="p-5">{product.name}</td>
+                      <td className="p-5">${product.old_price}</td>
+                      <td className="p-5">${product.new_price}</td>
+                      <td className="p-5">{product.category}</td>
+                      <td className="p-5"><button className="bg-red-500 text-white px-3 py-1 rounded" onClick={() => deleteProduct(product._id)} >Delete</button></td>
+                    </tr>
+                  )
+                })
+              ):(
+                <>                  
                   <RowSkeleton />
                   <RowSkeleton />
                   <RowSkeleton />
-
-                </tbody>
+                  </>
               )
             }
+      
+            
+          </tbody>
+         
         </table>
       </div>
     </div>
